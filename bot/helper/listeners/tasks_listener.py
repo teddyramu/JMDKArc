@@ -385,32 +385,6 @@ class MirrorLeechListener:
                 await sendMessage(self.message, msg)
                 if self.logMessage:
                     await sendMessage(self.logMessage, msg)
-            else:
-                fmsg = ''
-                buttons = ButtonMaker()
-                buttons = extra_btns(buttons)
-                if self.isSuperGroup and not self.message.chat.has_protected_content:
-                    buttons.ibutton('Save This Message', 'save', 'footer')
-                for index, (link, name) in enumerate(files.items(), start=1):
-                    fmsg += f"{index}. <a href='{link}'>{name}</a>\n"
-                    if len(fmsg.encode() + msg.encode()) > 4000:
-                        if self.logMessage:
-                            await sendMessage(self.logMessage, msg + fmsg)
-                        await sendMessage(self.message, msg + fmsg, buttons.build_menu(2))
-                        await sleep(1)
-                        fmsg = ''
-                if fmsg != '':
-                    if self.logMessage:
-                        await sendMessage(self.logMessage, msg + fmsg)
-                    await sendMessage(self.message, msg + fmsg, buttons.build_menu(2))
-            if self.seed:
-                if self.newDir:
-                    await clean_target(self.newDir)
-                async with queue_dict_lock:
-                    if self.uid in non_queued_up:
-                        non_queued_up.remove(self.uid)
-                await start_from_queued()
-                return
         else:
             msg += f'\n\n<b>Type: </b>{mime_type}'
             if mime_type == "Folder":
@@ -419,8 +393,6 @@ class MirrorLeechListener:
             msg += f'\n\n<b>#cc</b>: {self.tag} | <b>Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
             msg += f"\n\n<b>Upload</b>: {self.extra_details['mode']}"
             if link or rclonePath and config_dict['RCLONE_SERVE_URL']:
-                if drive_id and config_dict['GDRIVE_ID'] != drive_id:
-                    msg += f"\n\n<b>Folder id</b>: <code>{drive_id}</code>"
                 buttons = ButtonMaker()
                 if link:
                     if not config_dict['DISABLE_DRIVE_LINK']:
@@ -447,15 +419,6 @@ class MirrorLeechListener:
                             if mime_type.startswith(('image', 'video', 'audio')):
                                 share_urls = f'{INDEX_URL}/{url_path}?a=view'
                                 buttons.ubutton("🌐 View Link", share_urls)
-                buttons = extra_btns(buttons)
-                if self.dmMessage:
-                    msg += '\n\n<b>Links has been sent in your DM.</b>'
-                    await sendMessage(self.message, msg)
-                    await sendMessage(self.dmMessage, msg, buttons.build_menu(2))
-                else:
-                    if self.isSuperGroup and not self.message.chat.has_protected_content:
-                        buttons.ibutton("Save This Message", 'save', 'footer')
-                    await sendMessage(self.message, msg, buttons.build_menu(2))
                 if self.logMessage:
                     if link and config_dict['DISABLE_DRIVE_LINK']:
                         buttons.ubutton("🔐 Drive Link", link, 'header')
