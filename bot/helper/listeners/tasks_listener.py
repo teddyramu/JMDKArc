@@ -385,6 +385,19 @@ class MirrorLeechListener:
                 await sendMessage(self.message, msg)
                 if self.logMessage:
                     await sendMessage(self.logMessage, msg)
+            else:
+                if fmsg != '':
+                    if self.logMessage:
+                        await sendMessage(self.logMessage, msg + fmsg)
+                    await sendMessage(self.message, msg + fmsg, buttons.build_menu(2))
+            if self.seed:
+                if self.newDir:
+                    await clean_target(self.newDir)
+                async with queue_dict_lock:
+                    if self.uid in non_queued_up:
+                        non_queued_up.remove(self.uid)
+                await start_from_queued()
+                return
         else:
             msg += f'\n\n<b>Type: </b>{mime_type}'
             if mime_type == "Folder":
