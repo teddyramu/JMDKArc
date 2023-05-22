@@ -418,8 +418,6 @@ class MirrorLeechListener:
                 msg += f'\n<b>Files: </b>{files}'
             msg += f'\n\n<b>#cc</b>: {self.tag} | <b>Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
             msg += f"\n\n<b>Upload</b>: {self.extra_details['mode']}"
-            if link or rclonePath and config_dict['RCLONE_SERVE_URL']:
-                if drive_id and config_dict['GDRIVE_ID'] != drive_id:
                 buttons = ButtonMaker()
                 if link:
                     if not config_dict['DISABLE_DRIVE_LINK']:
