@@ -366,7 +366,7 @@ class MirrorLeechListener:
             await DbManger().remove_download(self.raw_url)
         if self.isSuperGroup and config_dict['INCOMPLETE_TASK_NOTIFIER'] and DATABASE_URL:
             await DbManger().rm_complete_task(self.message.link)
-        msg = f"<b>Name: </b><code>{escape(name)}</code>\n<b>Size: </b>{get_readable_file_size(size)}"
+        msg = f"<b>Name: </b><code>{escape(name)}</code>\n\n<b>Size: </b>{get_readable_file_size(size)}"
         LOGGER.info(f'Task Done: {name}')
         if self.isLeech:
             msg += f'<b>Total Files</b>: {folders}'
@@ -418,7 +418,7 @@ class MirrorLeechListener:
                 msg += f'\n<b>SubFolders: </b>{folders}'
                 msg += f'\n<b>Files: </b>{files}'
             msg += f'\n\n<b>#cc</b>: {self.tag} | <b>Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
-            msg += f'Will be <b>deleted</b> in 1 week!'
+            msg += f'\nWill be <b>deleted</b> in 1 week!'
             msg += f"\n\n<b>Upload</b>: {self.extra_details['mode']}"
             if link or rclonePath and config_dict['RCLONE_SERVE_URL']:
                 if drive_id and config_dict['GDRIVE_ID'] != drive_id:
