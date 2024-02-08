@@ -71,7 +71,7 @@ async def start(client, message):
         userid = message.from_user.id
         input_token = message.command[1]
         if userid not in user_data:
-            return await sendMessage(message, 'Who are you?')
+            return await sendMessage(message, 'Yo, Private bot here!, Deploy your own or join GC Groups to access')
         data = user_data[userid]
         if 'token' not in data or data['token'] != input_token:
             return await sendMessage(message, 'This is a token already expired')

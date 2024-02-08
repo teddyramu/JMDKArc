@@ -390,8 +390,6 @@ class MirrorLeechListener:
                 fmsg = ''
                 buttons = ButtonMaker()
                 buttons = extra_btns(buttons)
-                if self.isSuperGroup and not self.message.chat.has_protected_content:
-                    buttons.ibutton('Save This Message', 'save', 'footer')
                 for index, (link, name) in enumerate(files.items(), start=1):
                     fmsg += f"{index}. <a href='{link}'>{name}</a>\n"
                     if len(fmsg.encode() + msg.encode()) > 4000:
@@ -455,8 +453,6 @@ class MirrorLeechListener:
                     await sendMessage(self.message, msg)
                     await sendMessage(self.dmMessage, msg, buttons.build_menu(2))
                 else:
-                    if self.isSuperGroup and not self.message.chat.has_protected_content:
-                        buttons.ibutton("Save This Message", 'save', 'footer')
                     await sendMessage(self.message, msg, buttons.build_menu(2))
                 if self.logMessage:
                     if link and config_dict['DISABLE_DRIVE_LINK']:
