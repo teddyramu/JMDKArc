@@ -83,7 +83,7 @@ async def start(client, message):
         start_string = 'Bot Started.\n' \
             'Now I will send your files and links here.\n'
     else:
-        start_string = 'Yo'
+        start_string = 'Yo, Private bot here!, Deploy your own or join GC Groups to access'
     await sendMessage(message, start_string)
 
 
